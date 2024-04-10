@@ -3,6 +3,7 @@ package dev.vk.jfc.jfccommon.dto;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,5 +25,7 @@ public class ImageMessageTest {
 
         String val = msg.get(ImageMessage.HeaderKeys.K_FRAME_STORAGE_PATH);
         assertEquals(val, "local/jpgdata/HARON/VideoCamera_#_0/frame_1712372019_79_382991.jpg");
+
+        logger.info("Msg: {}", msg);
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Data
 @AllArgsConstructor
@@ -52,7 +53,7 @@ public class ImageMessage {
      */
     public static class MessageHeaders extends DataValidation {
 
-        private final Map<String, String> map = new HashMap<>();
+        private final Map<String, String> map = new TreeMap<>();
 
         private static String escapeHeader(String value) {
             if (null == value) return "NULL";
@@ -82,6 +83,11 @@ public class ImageMessage {
         public void put(String key, Object value) {
             invalidate();
             map.put(key, String.valueOf(value));
+        }
+
+        @Override
+        public String toString() {
+            return "%s@%s : map: %s".formatted(this.getClass(), this.hashCode(), map);
         }
     }
 
