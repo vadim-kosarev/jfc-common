@@ -1,5 +1,7 @@
 package dev.vk.jfc.jfccommon.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.Base64;
@@ -19,6 +21,7 @@ public class ImageMessage {
     public abstract static class DataValidation {
 
         @Getter
+        @JsonIgnore
         private boolean isValid;
 
         public void invalidate() {
@@ -53,6 +56,7 @@ public class ImageMessage {
      */
     public static class MessageHeaders extends DataValidation {
 
+        @JsonProperty
         private final Map<String, String> map = new TreeMap<>();
 
         private static String escapeHeader(String value) {
@@ -89,6 +93,10 @@ public class ImageMessage {
         public String toString() {
             return "%s@%s : map: %s".formatted(this.getClass(), this.hashCode(), map);
         }
+
+        public Map<String, Object> copyMap() {
+            return new HashMap<>(map);
+        }
     }
 
     /**
@@ -98,13 +106,16 @@ public class ImageMessage {
 
         @Getter
         @Setter
+        @JsonProperty
         private String mime;
 
         @Getter
         @Setter
+        @JsonIgnore
         private byte[] binary;
 
         @Getter
+        @JsonProperty
         private String binaryString;
 
         @Override
@@ -112,5 +123,54 @@ public class ImageMessage {
             byte[] encoded = Base64.getEncoder().encode(binary);
             binaryString = new String(encoded);
         }
+
+        public void setBinaryString(String str) {
+            byte[] encoded = str.getBytes();
+            binary = Base64.getDecoder().decode(encoded);
+        }
+
+        public MessageFile(String mime, byte[] binary) {
+            this.mime = mime;
+            this.binary = binary;
+        }
+
+        public MessageFile(String mime, String binaryString) {
+            this.mime = mime;
+            setBinaryString(binaryString);
+        }
+
+        public MessageFile() {
+        }
     }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    @AllArgsConstructor
+    @Builder
+    public static class Message extends DataValidation {
+
+        @Getter
+        @JsonIgnore
+        private MessageHeaders headers;
+
+        @JsonProperty("file")
+        @Setter
+        @Getter
+        private MessageFile file;
+
+        @Override
+        public void calculate() {
+            headers.calculate();
+            file.calculate();
+        }
+
+        @Override
+        public void ensureValid() {
+            headers.ensureValid();
+            file.ensureValid();
+            super.ensureValid();
+        }
+    }
+
 }

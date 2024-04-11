@@ -26,6 +26,9 @@ dependencies {
 
 // https://mvnrepository.com/artifact/org.springframework/spring-core
     implementation("org.springframework:spring-core:6.1.5")
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+//    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.0")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
