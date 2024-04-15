@@ -47,6 +47,7 @@ public class ImageMessage {
         public static final String K_FRAMENO = "frameNo";
         public static final String K_LOCALID = "localID";
         public static final String K_FRAME_STORAGE_PATH = "frameStoragePath";
+        public static final String K_UUID = "uuid";
 
     }
 
