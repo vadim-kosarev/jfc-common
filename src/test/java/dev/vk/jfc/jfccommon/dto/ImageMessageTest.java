@@ -1,6 +1,7 @@
 package dev.vk.jfc.jfccommon.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.vk.jfc.jfccommon.Jfc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -23,12 +24,12 @@ public class ImageMessageTest {
     void beforeEach() {
         msgHeaders = new ImageMessage.MessageHeaders();
 
-        msgHeaders.put(ImageMessage.HeaderKeys.K_HOSTNAME, "HARON");
-        msgHeaders.put(ImageMessage.HeaderKeys.K_SOURCE, "VideoCamera:0");
-        msgHeaders.put(ImageMessage.HeaderKeys.K_FRAMENO, 79);
-        msgHeaders.put(ImageMessage.HeaderKeys.K_LOCALID, 382991);
-        msgHeaders.put(ImageMessage.HeaderKeys.K_TIMESTAMP, 1712372019);
-        msgHeaders.put(ImageMessage.HeaderKeys.K_BROKER_TIMESTAMP, 1712372023);
+        msgHeaders.put(Jfc.K_HOSTNAME, "HARON");
+        msgHeaders.put(Jfc.K_SOURCE, "VideoCamera:0");
+        msgHeaders.put(Jfc.K_FRAMENO, 79);
+        msgHeaders.put(Jfc.K_LOCALID, 382991);
+        msgHeaders.put(Jfc.K_TIMESTAMP, 1712372019);
+        msgHeaders.put(Jfc.K_BROKER_TIMESTAMP, 1712372023);
 
         msgHeaders.ensureValid();
         logger.info("Msg: {}", msgHeaders);
@@ -36,7 +37,7 @@ public class ImageMessageTest {
 
     @Test
     void testImageMessage_001() {
-        String val = msgHeaders.get(ImageMessage.HeaderKeys.K_FRAME_STORAGE_PATH);
+        String val = msgHeaders.get(Jfc.K_FRAME_STORAGE_PATH);
         assertEquals(val, "local/jpgdata/HARON/VideoCamera_#_0/frame_1712372019_79_382991.jpg");
     }
 

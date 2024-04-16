@@ -2,6 +2,7 @@ package dev.vk.jfc.jfccommon.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.vk.jfc.jfccommon.Jfc;
 import lombok.*;
 
 import java.util.Base64;
@@ -39,18 +40,6 @@ public class ImageMessage {
 
     }
 
-    public static abstract class HeaderKeys {
-        public static final String K_HOSTNAME = "hostname";
-        public static final String K_SOURCE = "source";
-        public static final String K_TIMESTAMP = "timestamp";
-        public static final String K_BROKER_TIMESTAMP = "brokerTimestamp";
-        public static final String K_FRAMENO = "frameNo";
-        public static final String K_LOCALID = "localID";
-        public static final String K_FRAME_STORAGE_PATH = "frameStoragePath";
-        public static final String K_UUID = "uuid";
-
-    }
-
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
@@ -72,12 +61,12 @@ public class ImageMessage {
         @Override
         public void calculate() {
             String formatted = "local/jpgdata/%s/%s/frame_%s_%s_%s.jpg".formatted(
-                    escapeHeader(map.get(HeaderKeys.K_HOSTNAME)),
-                    escapeHeader(map.get(HeaderKeys.K_SOURCE)),
-                    escapeHeader(map.get(HeaderKeys.K_TIMESTAMP)),
-                    escapeHeader(map.get(HeaderKeys.K_FRAMENO)),
-                    escapeHeader(map.get(HeaderKeys.K_LOCALID)));
-            map.put(HeaderKeys.K_FRAME_STORAGE_PATH, formatted);
+                    escapeHeader(map.get(Jfc.K_HOSTNAME)),
+                    escapeHeader(map.get(Jfc.K_SOURCE)),
+                    escapeHeader(map.get(Jfc.K_TIMESTAMP)),
+                    escapeHeader(map.get(Jfc.K_FRAMENO)),
+                    escapeHeader(map.get(Jfc.K_LOCALID)));
+            map.put(Jfc.K_FRAME_STORAGE_PATH, formatted);
         }
 
         public String get(String key) {

@@ -1,0 +1,14 @@
+services:
+  jfc-db:
+#    image: mariadb
+    image: jfc-db
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
+    environment:
+      MARIADB_USER: jfc-user
+      MARIADB_PASSWORD: jfc-user-password
+      MARIADB_DATABASE: jfc
+      MARIADB_ROOT_PASSWORD: Password123!
+    ports: 
+    - 3366:3306
