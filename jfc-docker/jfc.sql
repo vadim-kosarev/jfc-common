@@ -56,16 +56,19 @@ DELIMITER ;
 DROP VIEW IF EXISTS `view_contained`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_contained` (
-	`id` CHAR(36) NULL COLLATE 'utf8mb4_general_ci',
+	`id` BINARY(16) NOT NULL,
+	`str_id` CHAR(36) NULL COLLATE 'utf8mb4_general_ci',
 	`label` VARCHAR(255) NULL COLLATE 'utf8mb4_general_ci',
-	`parentId` CHAR(36) NULL COLLATE 'utf8mb4_general_ci'
+	`parentId` BINARY(16) NULL,
+	`str_parentId` CHAR(36) NULL COLLATE 'utf8mb4_general_ci',
+	`parentLabel` VARCHAR(255) NULL COLLATE 'utf8mb4_general_ci'
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view jfc.view_contained
 DROP VIEW IF EXISTS `view_contained`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_contained`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`jfc`@`%` SQL SECURITY DEFINER VIEW `view_contained` AS select `BIN_TO_UUID`(`contained`.`id`) AS `id`,`contained`.`label` AS `label`,`BIN_TO_UUID`(`contained`.`parentId`) AS `parentId` from `contained`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`jfc`@`%` SQL SECURITY DEFINER VIEW `view_contained` AS select `c`.`id` AS `id`,`BIN_TO_UUID`(`c`.`id`) AS `str_id`,`c`.`label` AS `label`,`p`.`id` AS `parentId`,`BIN_TO_UUID`(`p`.`id`) AS `str_parentId`,`p`.`label` AS `parentLabel` from (`contained` `c` left join `contained` `p` on(`c`.`parentId` = `c`.`id`));
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
